@@ -9,7 +9,7 @@ from schemas import UserLogin, UserCreate
 from utils import hash_password, verify_password, create_access_token
 
 router = APIRouter()
-security = HTTPBearer()
+security = HTTPBearer(auto_error=False)
 
 SECRET_KEY = "your_secret_key"
 ALGORITHM = "HS256"
@@ -29,8 +29,9 @@ def get_current_user(
     token: HTTPAuthorizationCredentials = Depends(security),
     db: Session = Depends(get_db)
 ):
-    if request.method == "OPTIONS":
-        return None
+    if token is None:
+        raise HTTPException(status_code=401, detail="Not authenticated")
+    
     try:
         payload = jwt.decode(token.credentials, SECRET_KEY, algorithms=[ALGORITHM])
 

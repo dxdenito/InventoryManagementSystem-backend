@@ -1,12 +1,6 @@
 import uvicorn
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from pydantic import BaseModel
-from routes import products, inventory,users, shops, auth,employees,dashboard,reports
-
-from database import engine, Base
-app = FastAPI()
-
 origins=[
     "http://localhost:5173","http://192.168.0.104:5173","http://127.0.0.1:5173"
 ]
@@ -18,6 +12,13 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"]
 )
+from pydantic import BaseModel
+from routes import products, inventory,users, shops, auth,employees,dashboard,reports
+
+from database import engine, Base
+app = FastAPI()
+
+
 
 class Product(BaseModel):
     product_name: str
