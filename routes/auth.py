@@ -29,6 +29,8 @@ def get_current_user(
     token: HTTPAuthorizationCredentials = Depends(security),
     db: Session = Depends(get_db)
 ):
+    if token is None:
+        raise HTTPException(status_code=401, detail="Not authenticated")
     
     try:
         payload = jwt.decode(token.credentials, SECRET_KEY, algorithms=[ALGORITHM])
