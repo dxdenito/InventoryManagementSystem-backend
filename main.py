@@ -3,7 +3,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 app = FastAPI()
 origins=[
-    "https://inventoryfrontms.vercel.app/"
+    "https://inventoryfrontms.vercel.app"
 ]
 
 app.add_middleware(
